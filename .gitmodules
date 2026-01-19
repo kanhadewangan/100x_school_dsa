@@ -1,0 +1,3 @@
+[submodule "basiv"]
+	path = basiv
+	url = https://github.com/kanhadewangan/100x_school_dsa.git

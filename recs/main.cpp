@@ -140,18 +140,57 @@ int combinationTarget(vector<int>&arr, int n, int target , int index){
 }
 
 
-int subsetSums(vector<int>&arr,int n. int index){
-  if(index >= n) return 0;
-  int sum = 0;
-  sum += arr[index] + subsetSums(arr , n , index +1);
-  sum += subsetSums(arr , n , index +1);
-  return sum;
-}
+// int subsetSums(vector<int>&arr,int n. int index){
+//   if(index >= n) return 0;
+//   int sum = 0;
+//   sum += arr[index] + subsetSums(arr , n , index +1);
+//   sum += subsetSums(arr , n , index +1);
+//   return sum;
+// }
 
+int GridUniquePath(int n,int m){
+  if(n==1 && m==1) return 1;
+  if(n==0 || m==0) return 0;
+  return GridUniquePath(n-1 , m) + GridUniquePath(n , m-1);
+
+  }
+
+
+  
+ bool PartitionEquals(vector<int>&arr,int n , int sum,int index){
+  if(index>= n) return false;
+  if(sum == 0) return true;
+      int include = PartitionEquals(arr , n , sum - arr[index] , index +1);
+      int exclude = PartitionEquals(arr , n , sum , index +1);
+      return include || exclude;
+ }
+
+ bool canPartition(vector<int>&arr){
+  int sum = accumulate(arr.begin() , arr.end() , 0);
+  if(sum % 2 != 0) return false;
+  return PartitionEquals(arr , arr.size() , sum/2 , 0);
+ }
+
+
+ bool wordSearch(vector<vector<char>>&board, string word , int index , int i , int j){
+  if(index == word.size()) return true;
+  // boundary check and character match check
+  if(i<0 || j<0 || i>= board.size() || j>= board[0].size() || board[i][j] != word[index]) return false;
+  char temp = board[i][j];
+  board[i][j] = '#';
+  bool found = wordSearch(board , word , index +1 , i+1 , j) ||
+               wordSearch(board , word , index +1 , i-1 , j) ||
+               wordSearch(board , word , index +1 , i , j+1) ||
+               wordSearch(board , word , index +1 , i , j-1);
+  board[i][j] = temp;
+  return found;
+ }
+ 
 int main(){
- vector<int>arr = {10,1,2,7,6,1,5};
- int n = arr.size();
-  count<<subsetSums(arr , n , 0); 
+
+vector<vector<char>>board = {{'A', 'B', 'C', 'E'}, {'S', 'F', 'C', 'S'}, {'A', 'D', 'E', 'E'}};
+string word = "ABCCED";
+cout<<wordSearch(board , word , 0 , 0 , 0)<<endl;
 
 
 }
